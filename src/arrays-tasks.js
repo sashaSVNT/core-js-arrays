@@ -20,8 +20,8 @@
  *    getIntervalArray(0, 100) => [ 0, 1, 2, ..., 100 ]
  *    getIntervalArray(3, 3) => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 }
 
 /**
@@ -37,8 +37,8 @@ function getIntervalArray(/* start, end */) {
  *    sumArrays([10, 20, 30], [5, 10, 15]) => [15, 30, 45]
  *    sumArrays([-1, 0, 1], [1, 2, 3, 4]) => [0, 2, 4, 4]
  */
-function sumArrays(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function sumArrays(arr1, arr2) {
+  return arr1.map((el, i) => el + arr2[i]);
 }
 
 /**
@@ -135,9 +135,8 @@ function getAverage(arr) {
  *    isSameLength(['orange', 'banana', 'cherry']) => true
  *    isSameLength(['cat', 'dog', 'elephant']) => false
  */
-function isSameLength(/* arr */) {
-  throw new Error('Not implemented');
-  // const lengths = arr.map((el) => el.length)
+function isSameLength(arr) {
+  return arr.every((el) => arr[0].length === el.length);
 }
 
 /**
@@ -151,8 +150,8 @@ function isSameLength(/* arr */) {
  *    isValueEqualsIndex([2, 1, 0, 4, 5]) => true
  *    isValueEqualsIndex([10, 20, 30, 40, 50]) => false
  */
-function isValueEqualsIndex(/* arr */) {
-  throw new Error('Not implemented');
+function isValueEqualsIndex(arr) {
+  return arr.find((el, i) => arr[el] === i) >= 0;
 }
 
 /**
@@ -275,8 +274,8 @@ function createNDimensionalArray(/* n, size */) {
  *    flattenArray(['a', ['b', ['c', 'd'], 'e'], 'f']) => ['a', 'b', 'c', 'd', 'e', 'f']
  *    flattenArray([1, 2, 3, 4]) => [1, 2, 3, 4]
  */
-function flattenArray(/* nestedArray */) {
-  throw new Error('Not implemented');
+function flattenArray(nestedArray) {
+  return nestedArray.flat(Infinity);
 }
 
 /**
@@ -293,7 +292,7 @@ function flattenArray(/* nestedArray */) {
  *   selectMany(['one','two','three'], (x) => x.split('')) =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-  return arr.map(childrenSelector).flat(1);
+  return arr.flatMap(childrenSelector);
 }
 
 /**
@@ -328,8 +327,13 @@ function calculateBalance(arr) {
  *    createChunks(['a', 'b', 'c', 'd', 'e'], 2) => [['a', 'b'], ['c', 'd'], ['e']]
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
-function createChunks(/* arr, chunkSize */) {
-  throw new Error('Not implemented');
+function createChunks(arr, chunkSize) {
+  return arr.reduce((acc, _, i) => {
+    if (!(i % chunkSize)) {
+      acc.push(arr.slice(i, i + chunkSize));
+    }
+    return acc;
+  }, []);
 }
 
 /**
@@ -344,8 +348,8 @@ function createChunks(/* arr, chunkSize */) {
  *    generateOdds(2) => [ 1, 3 ]
  *    generateOdds(5) => [ 1, 3, 5, 7, 9 ]
  */
-function generateOdds(/* len */) {
-  throw new Error('Not implemented');
+function generateOdds(len) {
+  return new Array(len).fill(1).map((el, i) => el + i * 2);
 }
 
 /**
@@ -398,8 +402,10 @@ function getFalsyValuesCount(arr) {
  *                              [0,0,0,1,0],
  *                              [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return Array.from({ length: n }, (itemX, indexX) =>
+    Array.from({ length: n }, (itemY, indexY) => (indexX === indexY ? 1 : 0))
+  );
 }
 
 /**
@@ -413,8 +419,13 @@ function getIdentityMatrix(/* n */) {
  *    getIndicesOfOddNumbers([2, 4, 6, 8, 10]) => []
  *    getIndicesOfOddNumbers([11, 22, 33, 44, 55]) => [0, 2, 4]
  */
-function getIndicesOfOddNumbers(/* numbers */) {
-  throw new Error('Not implemented');
+function getIndicesOfOddNumbers(numbers) {
+  return numbers.reduce((acc, cur, i) => {
+    if (cur % 2) {
+      acc.push(i);
+    }
+    return acc;
+  }, []);
 }
 
 /**
@@ -427,8 +438,11 @@ function getIndicesOfOddNumbers(/* numbers */) {
  *    getHexRGBValues([ 0, 255, 16777215]) => [ '#000000', '#0000FF', '#FFFFFF' ]
  *    getHexRGBValues([]) => []
  */
-function getHexRGBValues(/* arr */) {
-  throw new Error('Not implemented');
+function getHexRGBValues(arr) {
+  return arr.map((decimal) => {
+    const decToHex = decimal.toString(16).toUpperCase();
+    return '#'.concat('0'.repeat(6 - decToHex.length), decToHex);
+  });
 }
 
 /**
@@ -445,8 +459,8 @@ function getHexRGBValues(/* arr */) {
  *   getMaxItems([ 10, 2, 7, 5, 3, -5 ], 3) => [ 10, 7, 5 ]
  *   getMaxItems([ 10, 10, 10, 10 ], 3) => [ 10, 10, 10 ]
  */
-function getMaxItems(/* arr, n */) {
-  throw new Error('Not implemented');
+function getMaxItems(arr, n) {
+  return arr.sort((a, b) => b - a).slice(0, n);
 }
 
 /**
@@ -461,13 +475,13 @@ function getMaxItems(/* arr, n */) {
  *    findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']) => [ 'b', 'c' ]
  *    findCommonElements([1, 2, 3], ['a', 'b', 'c']) => []
  */
-function findCommonElements(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function findCommonElements(arr1, arr2) {
+  return arr1.filter((el) => arr2.includes(el));
 }
 
 /**
- * Finds the length of the longest increasing subsequence of a given array of integers.
  *
+ *Finds the length of the longest increasing subsequence of a given array of integers.
  * @param {array} nums - The array of integers.
  * @return {number} - The length of the longest increasing subsequence.
  *
@@ -494,8 +508,10 @@ function findLongestIncreasingSubsequence(/* nums */) {
  *  propagateItemsByPositionIndex([ 'a', 'b', 'c', null ]) => [ 'a', 'b', 'b', 'c', 'c', 'c',  null, null, null, null ]
  *  propagateItemsByPositionIndex([ 1,2,3,4,5 ]) => [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  return arr.reduce((acc, cur, i) => {
+    return acc.concat(new Array(i + 1).fill(cur));
+  }, []);
 }
 
 /**
@@ -529,6 +545,32 @@ function shiftArray(/* arr, n */) {
  *   sortDigitNamesByNumericOrder([ 'one','one','one','zero' ]) => [ 'zero','one','one','one' ]
  */
 function sortDigitNamesByNumericOrder(/* arr */) {
+  // return arr.map((el) => {
+  //   switch (el) {
+  //     case 'zero':
+  //       return 0;
+  //     case 'one':
+  //       return 1;
+  //     case 'two':
+  //       return 2;
+  //     case 'three':
+  //       return 3;
+  //     case 'four':
+  //       return 4;
+  //     case 'five':
+  //       return 5;
+  //     case 'six':
+  //       return 6;
+  //     case 'seven':
+  //       return 7;
+  //     case 'eigth':
+  //       return 8;
+  //     case 'nine':
+  //       return 9;
+  //     default:
+  //       return false;
+  //   }
+  // }).sort((a, b) => a - b);
   throw new Error('Not implemented');
 }
 
@@ -551,8 +593,14 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  const array = arr;
+  const middleIndex = Math.floor(array.length / 2);
+  return array.length % 2
+    ? array
+        .slice(middleIndex + 1)
+        .concat(array[middleIndex], array.slice(0, middleIndex))
+    : array.slice(middleIndex).concat(array.slice(0, middleIndex));
 }
 
 module.exports = {
