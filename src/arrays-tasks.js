@@ -151,7 +151,7 @@ function isSameLength(arr) {
  *    isValueEqualsIndex([10, 20, 30, 40, 50]) => false
  */
 function isValueEqualsIndex(arr) {
-  return arr.find((el, i) => arr[el] === i) >= 0;
+  return arr.some((value, index) => arr[value] === index);
 }
 
 /**
@@ -259,8 +259,11 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  throw new Error('Not implemented');
+function createNDimensionalArray(n, size) {
+  if (n === 1) {
+    return Array(size).fill(0);
+  }
+  return Array(size).fill(createNDimensionalArray(n - 1, size));
 }
 
 /**
@@ -364,8 +367,8 @@ function generateOdds(len) {
  *   getElementByIndices(['one','two','three'], [2]) => 'three'  (arr[2])
  *   getElementByIndices([[[ 1, 2, 3]]], [ 0, 0, 1 ]) => 2        (arr[0][0][1])
  */
-function getElementByIndices(/* arr, indices */) {
-  throw new Error('Not implemented');
+function getElementByIndices(arr, indices) {
+  return indices.reduce((acc, index) => acc[index], arr);
 }
 
 /**
@@ -527,8 +530,8 @@ function propagateItemsByPositionIndex(arr) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  return arr.slice(-n).concat(arr.slice(0, -n));
 }
 
 /**
@@ -544,34 +547,20 @@ function shiftArray(/* arr, n */) {
  *   sortDigitNamesByNumericOrder([ 'nine','eight','nine','eight' ]) => [ 'eight','eight','nine','nine']
  *   sortDigitNamesByNumericOrder([ 'one','one','one','zero' ]) => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  // return arr.map((el) => {
-  //   switch (el) {
-  //     case 'zero':
-  //       return 0;
-  //     case 'one':
-  //       return 1;
-  //     case 'two':
-  //       return 2;
-  //     case 'three':
-  //       return 3;
-  //     case 'four':
-  //       return 4;
-  //     case 'five':
-  //       return 5;
-  //     case 'six':
-  //       return 6;
-  //     case 'seven':
-  //       return 7;
-  //     case 'eigth':
-  //       return 8;
-  //     case 'nine':
-  //       return 9;
-  //     default:
-  //       return false;
-  //   }
-  // }).sort((a, b) => a - b);
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const strDigits = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+  ];
+  return arr.sort((a, b) => strDigits.indexOf(a) - strDigits.indexOf(b));
 }
 
 /**
