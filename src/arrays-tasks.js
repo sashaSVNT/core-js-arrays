@@ -38,7 +38,12 @@ function getIntervalArray(start, end) {
  *    sumArrays([-1, 0, 1], [1, 2, 3, 4]) => [0, 2, 4, 4]
  */
 function sumArrays(arr1, arr2) {
-  return arr1.map((el, i) => el + arr2[i]);
+  const maxLength = Math.max(arr1.length, arr2.length);
+  return Array.from({ length: maxLength }, (_, index) => {
+    const a = arr1[index] ?? 0;
+    const b = arr2[index] ?? 0;
+    return a + b;
+  });
 }
 
 /**
@@ -493,8 +498,21 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  let maxLength = 1;
+  nums.reduce((acc, cur, i) => {
+    let currentTotal = acc;
+    if (cur <= nums[i + 1]) {
+      currentTotal += 1;
+    } else {
+      if (maxLength < currentTotal) {
+        maxLength = currentTotal;
+      }
+      currentTotal = 1;
+    }
+    return currentTotal;
+  }, 1);
+  return maxLength;
 }
 
 /**
